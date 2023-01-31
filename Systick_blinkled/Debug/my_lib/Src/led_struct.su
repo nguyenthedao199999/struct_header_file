@@ -1,1 +1,5 @@
-../my_lib/Src/led_struct.c:3:6:nhay_led	16	static
+../my_lib/Src/led_struct.c:26:6:led_init	4	static
+../my_lib/Src/led_struct.c:31:6:led_main_function	16	static
+../my_lib/Src/led_struct.c:45:13:led_driver	16	static
+../my_lib/Src/led_struct.c:67:6:led_control	16	static
+../my_lib/Src/led_struct.c:89:6:button_control_led	8	static

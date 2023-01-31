@@ -2,13 +2,22 @@
 #define __LEDSTRUCT_H
 #include "main.h"
 
-struct t_hop{
-	uint32_t last_time;
-	GPIO_TypeDef * GPIOx;
-	uint16_t GPIO_Pin;
-	uint32_t time_led1;
-	uint32_t time_led2;
-	uint32_t flag;
-};
-void nhay_led(struct t_hop *s);
+#define LED_SERVER 	0
+#define LED_ERROR	1
+
+typedef enum {
+	LED_MODE_BLINK_FAST,
+	LED_MODE_BLINK_SLOW,
+	LED_MODE_ON,
+	LED_MODE_OFF
+} led_mode_t;
+
+void led_init(void);
+
+void led_main_function(void);
+
+void led_control(uint32_t led_number, led_mode_t led_mode);
+
+void button_control_led();
+
 #endif

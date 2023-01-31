@@ -66,11 +66,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-	struct t_hop led_x[2] = {{HAL_GetTick(),GPIOB,GPIO_PIN_13,5000,200,1}, {HAL_GetTick(),GPIOA,GPIO_PIN_5,3000,500,0}};
 
-
-	/*struct t_hop LED1  = {100,GPIOB,GPIO_PIN_13,500,2000,0};
-	struct t_hop LED2  = {100,GPIOA,GPIO_PIN_5,3000,200,0};*/
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -84,7 +80,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  //led_init();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -98,11 +94,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  for(uint32_t i = 0;i < 2; i++)
-	  {
-		 nhay_led(&led_x[i]);
-	  }
+
     /* USER CODE BEGIN 3 */
+	  led_main_function();
+	  button_control_led();
+
 	  /*nhay_led(&LED1);
 	  nhay_led(&LED2);*/
 	  /*
@@ -169,7 +165,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOI_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
@@ -178,11 +176,29 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET);
 
+  /*Configure GPIO pins : PI10 PI9 PI8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_9|GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
+
   /*Configure GPIO pin : PA5 */
   GPIO_InitStruct.Pin = GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PF11 */
+  GPIO_InitStruct.Pin = GPIO_PIN_11;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_1;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB13 */
